@@ -1,0 +1,3 @@
+backend: "skywifi"
+#backend: "ipify"
+#backend: "vodafone"
