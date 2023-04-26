@@ -1,0 +1,6 @@
+token: "cloudflare token" # the cloudflare api token
+zones:                    # define the zone/zones you wish to cover
+  - test.net:
+      v4-records:
+        test1.test.net:         # records of type A (leave empty or omit for none)
+      v6-records:         # records of type A (leave empty or omit for none)
