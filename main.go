@@ -1,10 +1,11 @@
 package main
 
 import (
-	"github.com/kkyr/fig"
-	"github.com/nylone/cloudflare-ddns/src/cloudflare"
 	"plugin"
 	"sync"
+
+	"github.com/kkyr/fig"
+	"github.com/nylone/cloudflare-ddns/cloudflare"
 )
 
 const (
