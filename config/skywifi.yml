@@ -1,3 +1,3 @@
-username: "admin"
-password: "password"
-router: "192.168.0.1"
+username: "admin" # login username
+password: "password" # login password
+router: "192.168.0.1" # router ip address

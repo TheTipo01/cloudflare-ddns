@@ -1,6 +1,7 @@
 timeout: 10 # seconds to wait between each ip check
-doV4: true
-doV6: true
-backend: "skywifi"
-#backend: "ipify"
-#backend: "vodafone"
+doV4: true # set to true to discover and update ipv4 addresses
+doV6: true # set to true to discover and update ipv6 addresses
+# uncomment the plugin you wish to use. remember to check for any config files
+backend: "skywifi" # config skywifi.yml
+#backend: "ipify" # config absent
+#backend: "vodafone" # config vodafone.yml

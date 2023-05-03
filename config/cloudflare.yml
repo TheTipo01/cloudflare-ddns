@@ -1,8 +1,8 @@
 token: "cloudflare token" # the cloudflare api token
 zones:                    # define the zone/zones you wish to cover
-  - run.net:
-      v4-records:
-        test1.run.net:         # records of type A (leave empty or omit for none)
-        test2.run.net:         # records of type A (leave empty or omit for none)
-      v6-records:         # records of type A (leave empty or omit for none)
-        test.run.net:
+  - run.net:              # site name: run.net
+      v4-records:         # define v4 records to update (can be left empty)
+        test2.run.net:    # record of type A
+        test1.run.net:    # remember to add a trailing colon ":" at the end of the record name
+      v6-records:         # define v6 records to update (can be left empty)
+        test.run.net:     # record of type AAAA

@@ -21,3 +21,9 @@ mv out $HOME/cloudflare-ddns
 cd $HOME/cloudflare-ddns
 rm -rf /tmp/cloudflare-ddns
 ```
+
+# Usage
+Using this tool is easy: after installing it, browse the various config files (every plugin has a config file and the main config file is config.yml).
+Every config is documented and should give you enough information regarding its functions.
+
+For any questions please open an issue and I'll answer promptly.
