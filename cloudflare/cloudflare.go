@@ -71,15 +71,13 @@ func LoadMappings() error {
 }
 
 // Update A records on cloudflare.
-func PatchARecords(ipv4 string, wg *sync.WaitGroup) []error {
+func PatchARecords(ipv4 string) []error {
 	mutexError := sync.Mutex{}
 	var errors []error
 	for z, r := range z2v4r {
-		wg.Add(len(r))
 		for _, r := range r {
 			zone, record := z, r
 			go func() {
-				defer wg.Done()
 				err := patchRecord(zone, record, ipv4)
 				if err != nil {
 					mutexError.Lock()
@@ -93,15 +91,13 @@ func PatchARecords(ipv4 string, wg *sync.WaitGroup) []error {
 }
 
 // Update AAAA records on cloudflare.
-func PatchAAAARecords(ipv6 string, wg *sync.WaitGroup) []error {
+func PatchAAAARecords(ipv6 string) []error {
 	mutexError := sync.Mutex{}
 	var errors []error
 	for z, r := range z2v4r {
-		wg.Add(len(r))
 		for _, r := range r {
 			zone, record := z, r
 			go func() {
-				defer wg.Done()
 				err := patchRecord(zone, record, ipv6)
 				if err != nil {
 					mutexError.Lock()
