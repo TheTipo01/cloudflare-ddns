@@ -2,7 +2,7 @@ package main
 
 import (
 	"plugin"
-	"sync"
+	"time"
 
 	"github.com/kkyr/fig"
 	"github.com/nylone/cloudflare-ddns/cloudflare"
@@ -14,11 +14,18 @@ const (
 
 type config struct {
 	Backend string `fig:"backend" validate:"required"`
+	Timeout int    `fig:"timeout" default:"30"`
+	DoV4    bool   `fig:"doV4" default:"false"`
+	DoV6    bool   `fig:"doV6" default:"false"`
 }
 
-func main() {
+var (
+	getIPs func(bool, bool) (string, string, error)
+	cfg    config
+)
+
+func init() {
 	// load config file
-	var cfg config
 	err := fig.Load(&cfg, fig.File(configFile))
 	if err != nil {
 		panic(err)
@@ -28,13 +35,13 @@ func main() {
 	var pluginPath string
 	switch cfg.Backend {
 	case "ipify":
-		pluginPath = "plugins/ipify/ipify.so"
+		pluginPath = "ipify.so"
 	case "skywifi":
-		pluginPath = "plugins/skywifi/skywifi.so"
+		pluginPath = "skywifi.so"
 	case "openwrt":
-		pluginPath = "plugins/openwrt/openwrt.so"
+		pluginPath = "openwrt.so"
 	case "vodafone":
-		pluginPath = "plugins/vodafone/vodafone.so"
+		pluginPath = "vodafone.so"
 	default:
 		panic("No valid plugin selected.")
 	}
@@ -48,19 +55,31 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	getIPs := f.(func(bool, bool) (string, string, error))
+	getIPs = f.(func(bool, bool) (string, string, error))
+}
 
+func main() {
 	// load cloudflare mappings
-	err = cloudflare.LoadMappings()
+	err := cloudflare.LoadMappings()
 	if err != nil {
 		panic(err)
 	}
 
-	ipv4, ipv6, err := getIPs(true, true)
-	if err != nil {
-		wg := sync.WaitGroup{}
-		defer wg.Wait()
-		cloudflare.PatchARecords(ipv4, &wg)
-		cloudflare.PatchAAAARecords(ipv6, &wg)
+	ipv4, ipv6 := "", ""
+	var newIpv4, newIpv6 string
+	for {
+		newIpv4, newIpv6, err = getIPs(cfg.DoV4, cfg.DoV6)
+		if err != nil {
+			panic(err)
+		}
+		if newIpv4 != ipv4 {
+			ipv4 = newIpv4
+			cloudflare.PatchARecords(ipv4)
+		}
+		if newIpv6 != ipv6 {
+			ipv6 = newIpv6
+			cloudflare.PatchAAAARecords(ipv6)
+		}
+		time.Sleep(time.Second * time.Duration(cfg.Timeout))
 	}
 }

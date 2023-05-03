@@ -1,1 +1,1 @@
-package openwrt
+package main
