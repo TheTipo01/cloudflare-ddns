@@ -4,11 +4,12 @@ import (
 	"errors"
 	"fmt"
 	"net"
+	"strconv"
 )
 
 func FindOwnInterfaceIP(router string, netmaskLen uint8) (string, error) {
 	// extract current netmask from the router ip
-	_, network, err := net.ParseCIDR(router + "/" + string(netmaskLen))
+	_, network, err := net.ParseCIDR(router + "/" + strconv.FormatInt(int64(netmaskLen), 10))
 	if err != nil {
 		return "", err
 	}
@@ -26,5 +27,5 @@ func FindOwnInterfaceIP(router string, netmaskLen uint8) (string, error) {
 		}
 	}
 
-	return "", errors.New("no ip was found for router address: " + router + "/" + string(netmaskLen))
+	return "", errors.New("no ip was found for router address: " + router + "/" + strconv.FormatInt(int64(netmaskLen), 10))
 }
