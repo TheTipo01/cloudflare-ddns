@@ -31,23 +31,8 @@ func init() {
 		panic(err)
 	}
 
-	// find correct plugin
-	var pluginPath string
-	switch cfg.Backend {
-	case "ipify":
-		pluginPath = "ipify.so"
-	case "skywifi":
-		pluginPath = "skywifi.so"
-	case "openwrt":
-		pluginPath = "openwrt.so"
-	case "vodafone":
-		pluginPath = "vodafone.so"
-	default:
-		panic("No valid plugin selected.")
-	}
-
 	// load plugin
-	p, err := plugin.Open(pluginPath)
+	p, err := plugin.Open(cfg.Backend + ".so")
 	if err != nil {
 		panic(err)
 	}
