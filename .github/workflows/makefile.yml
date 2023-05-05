@@ -14,11 +14,11 @@ jobs:
       run: make
       
     - name: Compress output files
-      run: tar -czvf cloudflare-ddns.tar.gz out
+      run: zip cloudflare-ddns.zip out
       
     - name: Upload to release
       uses: JasonEtco/upload-to-release@master
       with:
-        args: cloudflare-ddns.tar.gz application/tar+gzip
+        args: cloudflare-ddns.zip application/zip
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
