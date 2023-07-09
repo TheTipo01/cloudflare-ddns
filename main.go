@@ -15,8 +15,8 @@ const (
 type config struct {
 	Backend string `fig:"backend" validate:"required"`
 	Timeout int    `fig:"timeout" default:"30"`
-	DoV4    bool   `fig:"doV4" default:"false"`
-	DoV6    bool   `fig:"doV6" default:"false"`
+	DoV4    bool   `fig:"doV4"`
+	DoV6    bool   `fig:"doV6"`
 }
 
 var (
