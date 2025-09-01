@@ -18,4 +18,4 @@ FROM alpine
 COPY --from=build /cloudflare-ddns/out /opt/cloudflare-ddns
 WORKDIR /opt/cloudflare-ddns
 
-CMD ["cloudflare-ddns"]
+CMD ["./cloudflare-ddns"]
