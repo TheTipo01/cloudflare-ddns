@@ -16,5 +16,6 @@ RUN CGO_ENABLED=1 go build -trimpath -buildmode=plugin -o out/openwrt.so plugins
 FROM alpine
 
 COPY --from=build /cloudflare-ddns/out /opt/cloudflare-ddns
+WORKDIR /opt/cloudflare-ddns
 
-CMD ["/opt/cloudflare-ddns/cloudflare-ddns"]
+CMD ["cloudflare-ddns"]
